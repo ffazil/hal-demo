@@ -33,19 +33,21 @@ public class JacksonCustomization {
     static class CustomerModule extends SimpleModule {
 
         public CustomerModule(CustomerDeserializer customerDeserializer){
-            setMixInAnnotation(Customer.class, CustomerMixin.class);
+            //setMixInAnnotation(Customer.class, CustomerMixin.class);
             SimpleDeserializers simpleDeserializers = new SimpleDeserializers();
             simpleDeserializers.addDeserializer(Customer.class, customerDeserializer);
             setDeserializers(simpleDeserializers);
         }
 
-        @JsonAutoDetect(isGetterVisibility = JsonAutoDetect.Visibility.NONE)
-        static abstract class CustomerMixin {
+        @JsonAutoDetect(isGetterVisibility = JsonAutoDetect.Visibility.ANY)
+        static abstract class CustomerMixin{
 
             @JsonCreator
             public CustomerMixin(@JsonProperty("firstName") String firstName,
                                  @JsonProperty("lastName") String lastName,
-                                 @JsonProperty("address") Address address) {}
+                                 @JsonProperty("address") Address address) {
+
+            }
         }
 
     }
